@@ -1,116 +1,111 @@
-# Histopathology Image Classification (Benign vs Malignant)
+🧪 Histopathology Image Classification
+📌 Overview
 
-A complete, ready-to-run project for classifying histopathology image patches using deep learning (PyTorch), with Grad-CAM explainability and a Streamlit demo app.
+This project applies Deep Learning to classify histopathology images (microscope tissue samples) into benign (non-cancerous) and malignant (cancerous) categories.
+It demonstrates how AI can support digital pathology by speeding up diagnosis, improving accuracy, and providing explainable results for medical experts.
 
-> Suited for portfolios and interviews. Easily extensible to whole-slide images (WSIs) via patching.
+The pipeline uses CNN architectures (ResNet, EfficientNet) with transfer learning, Grad-CAM visualizations for interpretability, and includes a Streamlit web app for easy demo.
+🎯 Motivation
 
----
+Traditional cancer diagnosis via histopathology requires trained pathologists to manually examine thousands of microscopic slides. This process is:
 
-## Features
-- ResNet/EfficientNet backbones with transfer learning
-- Patch-level classification pipeline
-- Albumentations-based augmentations
-- Grad-CAM visual explanations
-- Balanced sampling & metric reporting (Accuracy, F1, AUC)
-- Config-driven training (YAML)
-- Streamlit app for quick demos
+Time-consuming ⏳
 
----
+Prone to inter-observer variability 👨‍⚕️👩‍⚕️
 
-## Datasets
+Difficult to scale in resource-limited settings 🌍
 
-You can use one of the following public datasets:
+By leveraging Deep Learning & Computer Vision, we can:
 
-1. **PatchCamelyon (PCam)** (fastest to start)
-   - GitHub: https://github.com/basveeling/pcam
-   - Contains 96x96 patches extracted from CAMELYON16 WSIs.
-   - Labels: 1 = tumor, 0 = normal.
+Assist doctors with AI-driven second opinions
 
-2. **Kaggle - Histopathologic Cancer Detection**
-   - https://www.kaggle.com/competitions/histopathologic-cancer-detection
-   - 96x96 H&E stained patches of lymph node sections.
-   - Labels in CSV; images named by id.
+Highlight regions of interest (via Grad-CAM)
 
-> Place images in the `data/` directory as described below.
+Improve diagnostic efficiency and consistency
 
-### Folder Layout (for generic folder dataset)
-```
-data/
-  train/
-    0/  # benign
-    1/  # malignant
-  val/
-    0/
-    1/
-  test/
-    0/
-    1/
-```
+⚙️ Features
 
-Alternatively, for **Kaggle HCD**, use CSV + images in a single folder; see `src/dataset.py` for CSV mode.
+Patch-level classification (benign vs malignant)
 
----
+Pretrained ResNet / EfficientNet backbones
 
-## Quickstart
+Data augmentations for generalization (flips, rotations, color jitter)
 
-```bash
-# 1) Create a virtual environment (recommended)
+Grad-CAM explainability to highlight regions influencing predictions
+
+Config-driven training (YAML for easy experimentation)
+
+Streamlit app for real-time demo (upload → prediction + heatmap overlay)
+
+📂 Dataset
+
+This project supports multiple datasets:
+
+PatchCamelyon (PCam) – GitHub
+
+96×96 patches extracted from CAMELYON16 breast cancer slides
+
+327,680 labeled patches (balanced benign/malignant)
+
+Kaggle – Histopathologic Cancer Detection – Competition Link
+
+96×96 H&E stained tissue patches
+
+CSV file with image IDs and labels (0 = benign, 1 = malignant)
+
+📌 Place data under data/ as explained in data/README_DATA.md
+.
+
+🚀 Quickstart
+# 1) Setup environment
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# 2) Install dependencies
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 3) (Optional) Edit config
-# configs/default.yaml
-
-# 4) Train
+# 2) Train model
 python src/train.py --config configs/default.yaml
 
-# 5) Inference on a folder of images
-python src/inference.py --checkpoint checkpoints/best_model.pt --input_dir ./data/test/1 --output_dir ./outputs
+# 3) Run inference with Grad-CAM overlays
+python src/inference.py --checkpoint checkpoints/best_model.pt --input_dir data/test/1 --output_dir outputs
 
-# 6) Run Streamlit app
+# 4) Launch web demo
 streamlit run app/streamlit_app.py
-```
 
----
+📊 Example Output
 
-## Explainability (Grad-CAM)
-We include `src/gradcam.py` for generating Grad-CAM heatmaps over input patches to visualize regions driving the prediction. The Streamlit app overlays Grad-CAM automatically on uploaded images.
+Prediction: Malignant (probability = 0.93)
+Grad-CAM Overlay: Highlights tumor regions that influenced the decision.
 
----
+(Insert sample images here when available)
 
-## Project Structure
-```
-histopathology-classification/
-├─ app/
-│  └─ streamlit_app.py
-├─ configs/
-│  └─ default.yaml
-├─ data/
-│  └─ README_DATA.md
-├─ src/
-│  ├─ dataset.py
-│  ├─ gradcam.py
-│  ├─ inference.py
-│  ├─ model.py
-│  ├─ train.py
-│  ├─ transforms.py
-│  └─ utils.py
-├─ .gitignore
-├─ README.md
-└─ requirements.txt
-```
+🛠 Tech Stack
 
----
+Python, PyTorch, Torchvision – deep learning
 
-## Notes
-- For WSIs (50K×50K): use OpenSlide to patch tiles, then feed patches to this classifier. The same augmentations and model code apply.
-- Consider stain normalization for domain robustness (see `transforms.py` for a Macenko-style placeholder).
-- For best results, ensure class balancing (we include weighted loss and sampling options).
+Albumentations – image augmentations
 
----
+OpenSlide – (optional) for whole-slide images
 
-## License
-MIT
+scikit-learn – metrics (AUC, F1)
+
+Streamlit – interactive web demo
+
+YAML configs – reproducible experiments
+
+🔮 Extensions
+
+Adapt pipeline to whole-slide images (WSIs) by tiling patches
+
+Add stain normalization (Macenko/Vahadane) for domain robustness
+
+Explore Vision Transformers (ViTs) for higher accuracy
+
+Deploy as a cloud-based pathology assistant tool
+
+📖 References
+
+Bandi, P., et al. (2018). CAMELYON16: Grand Challenge on Cancer Metastasis Detection in Lymph Node Histopathology Images.
+
+Kaggle: Histopathologic Cancer Detection
+
+📜 License
