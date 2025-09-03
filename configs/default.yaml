@@ -1,0 +1,38 @@
+seed: 42
+
+data:
+  mode: "folders"           # "folders" or "csv"
+  train_dir: "data/train"
+  val_dir: "data/val"
+  test_dir: "data/test"
+  csv:
+    train_csv: "data/train_labels.csv"
+    val_csv: "data/val_labels.csv"
+    test_csv: "data/test_labels.csv"
+    image_dir: "data/images"
+    image_col: "id"
+    label_col: "label"
+  num_workers: 2
+  input_size: 224
+
+training:
+  batch_size: 64
+  max_epochs: 20
+  lr: 0.0003
+  weight_decay: 0.0001
+  optimizer: "adam"         # "adam" or "sgd"
+  scheduler: "cosine"       # "step" or "cosine" or "none"
+  use_class_weights: true
+  early_stopping_patience: 5
+  checkpoint_dir: "checkpoints"
+
+model:
+  backbone: "resnet50"      # "resnet18","resnet34","resnet50","efficientnet_b0"
+  pretrained: true
+  dropout: 0.2
+  num_classes: 2
+
+logging:
+  log_every_n_steps: 50
+  save_best_metric: "auc"
+  outputs_dir: "outputs"

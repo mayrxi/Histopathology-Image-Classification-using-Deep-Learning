@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PyTorch
+runs/
+checkpoints/
+*.pt
+*.pth
+
+# Data & Outputs
+data/*
+!data/README_DATA.md
+outputs/
+logs/
+
+# Streamlit
+.streamlit/

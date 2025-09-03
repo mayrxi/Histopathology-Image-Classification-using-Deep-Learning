@@ -1,0 +1,22 @@
+# Core
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# Data/Utils
+numpy
+pandas
+scikit-learn
+opencv-python
+Pillow
+albumentations>=1.4.0
+PyYAML
+
+# WSI (optional)
+openslide-python
+
+# Explainability / Visualization
+matplotlib
+
+# App
+streamlit>=1.30.0
